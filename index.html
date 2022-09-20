@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <title>Document</title>
 </head>
 <body>
-    
+    <div id="container">
+        <div id="display">
+            <p id="display-text"></p>
+        </div>
+        <div id="buttons">
+            <div id="numeric-buttons">
+                <div id="row">
+                    <div class="num" onclick="cleaR()">C</div>
+                    <div class="num" onclick="display('%')">%</div>
+                    <div class="num" onclick="clear_partial('X')">X</div>
+                </div>
+                <div id="row">
+                    <div class="num" onclick="display(7)">7</div>
+                    <div class="num" onclick="display(8)">8</div>
+                    <div class="num" onclick="display(9)">9</div>
+                </div>
+                <div id="row">
+                    <div class="num" onclick="display(4)">4</div>
+                    <div class="num" onclick="display(5)">5</div>
+                    <div class="num" onclick="display(6)">6</div>
+                </div>
+                <div id="row">
+                    <div class="num" onclick="display(1)">1</div>
+                    <div class="num" onclick="display(2)">2</div>
+                    <div class="num" onclick="display(3)">3</div>
+                </div>
+                <div id="row">
+                    <div class="num" onclick="display('00')">00</div>
+                    <div class="num" onclick="display(0)">0</div>
+                    <div class="num" onclick="display('.')">.</div>
+                </div>
+            </div>
+            <div id="functional-buttons">
+                <div class="fun" onclick="display('+')">÷</div>
+                <div class="fun" onclick="display('×')">×</div>
+                <div class="fun" onclick="display('-')">-</div>
+                <div class="fun" onclick="display('+')">+</div>
+                <div class="fun equal" >=</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

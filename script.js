@@ -27,7 +27,7 @@ function display(x){
 }
 
 function cleaR(){
-    document.getElementById('display-text').innerHTML = ' ';
+    document.getElementById('display-text').innerHTML = '';
 }
 function clear_partial(){
     let x = document.getElementById('display-text').innerHTML.toString;
@@ -37,8 +37,12 @@ function clear_partial(){
 
 function result(){
     exp = document.getElementById('display-text').textContent;
+    console.log(exp);
     let mid = infixToPostfix(exp);
+    console.log(mid);
+    console.log(evaluatePostfix(mid));
     document.getElementById('display-text').innerHTML = evaluatePostfix(mid);
+
 }
 
 
@@ -56,25 +60,18 @@ function prec(c) {
 
 function infixToPostfix(s) {
 
-    let st = []; //For stack operations, we are using C++ built in stack
+    let st = []; 
     let result = "";
 
     for(let i = 0; i < s.length; i++) {
         let c = s[i];
 
-        // If the scanned character is
-        // an operand, add it to output string.
         if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
             result += c;
 
-        // If the scanned character is an
-        // ‘(‘, push it to the stack.
         else if(c == '(')
             st.push('(');
 
-        // If the scanned character is an ‘)’,
-        // pop and to output string from the stack
-        // until an ‘(‘ is encountered.
         else if(c == ')') {
             while(st[st.length - 1] != '(')
             {
@@ -84,7 +81,6 @@ function infixToPostfix(s) {
             st.pop();
         }
 
-        //If an operator is scanned
         else {
             while(st.length != 0 && prec(s[i]) <= prec(st[st.length - 1])) {
                 result += st[st.length - 1];
@@ -94,32 +90,25 @@ function infixToPostfix(s) {
         }
     }
 
-    // Pop all the remaining elements from the stack
     while(st.length != 0) {
         result += st[st.length - 1];
         st.pop();
     }
 
-    document.write(result + "</br>");
+    return result;
 }
  
 function evaluatePostfix(exp)
 {
-    //create a stack
         let stack=[];
           
-        // Scan all characters one by one
         for(let i=0;i<exp.length;i++)
         {
             let c=exp[i];
               
-            // If the scanned character is an operand (number here),
-            // push it to the stack.
             if(! isNaN( parseInt(c) ))
             stack.push(c.charCodeAt(0) - '0'.charCodeAt(0));
               
-            //  If the scanned character is an operator, pop two
-            // elements from stack apply the operator
             else
             {
                 let val1 = stack.pop();
@@ -145,9 +134,5 @@ function evaluatePostfix(exp)
               }
             }
         }
-        return stack.pop().toString;  
+        return stack.pop();  
 }
- 
-// Driver program to test above functions
-// let exp="231*+9-";
-// document.write("postfix evaluation: "+evaluatePostfix(infixToPostfix(exp)));

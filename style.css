@@ -67,6 +67,10 @@ body{
 .num{
     font-size: larger;
 }
+.cross{
+    border: 1px solid white;
+    
+}
 #row{
     display: flex;
     justify-content: space-between;

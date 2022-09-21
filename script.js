@@ -27,9 +27,9 @@ function cleaR(){
     document.getElementById('display-text').innerHTML = '';
 }
 function clear_partial(){
-    let x = document.getElementById('display-text').innerHTML.toString;
-    document.getElementById('display-text').innerHTML = x.slice(0,x.length -1);
-    console.log(x.substring(0,s.length -1));
+    let x = document.getElementById('display-text').textContent;
+    document.getElementById('display-text').innerHTML = x.substring(0,x.length -1);
+    console.log(x.substring(0,x.length -1));
 }
 
 function result(){
@@ -108,8 +108,8 @@ function evaluatePostfix(exp)
               
             else
             {
-                let val1 = stack.pop();
-                let val2 = stack.pop();
+                let val1 = parseFloat(stack.pop());
+                let val2 = parseFloat(stack.pop());
                   
                 switch(c)
                 {

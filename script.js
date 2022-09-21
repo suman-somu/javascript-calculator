@@ -14,9 +14,6 @@ class Calculator{
     }
 }
 
-// window.onload = ()=>(
-//     start()
-//     );
 
 
 let exp = "a+b*(c^d-e)^(f+g*h)-i";
@@ -37,10 +34,10 @@ function clear_partial(){
 
 function result(){
     exp = document.getElementById('display-text').textContent;
-    console.log(exp);
+    // console.log(exp);
     let mid = infixToPostfix(exp);
-    console.log(mid);
-    console.log(evaluatePostfix(mid));
+    // console.log(mid);
+    // console.log(evaluatePostfix(mid));
     document.getElementById('display-text').innerHTML = evaluatePostfix(mid);
 
 }

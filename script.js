@@ -128,6 +128,10 @@ function evaluatePostfix(exp)
                     case '*':
                     stack.push(val2*val1);
                     break;
+
+                    case '%':
+                        stack.push(val2%val1);
+                        break;
               }
             }
         }

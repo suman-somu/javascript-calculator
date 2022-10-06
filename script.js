@@ -21,6 +21,7 @@ let exp = "a+b*(c^d-e)^(f+g*h)-i";
 function display(x){
     var prev = document.getElementById('display-text').innerHTML;
     document.getElementById('display-text').innerHTML = prev + x ;
+    // console.log(prev+x);
 }
 
 function cleaR(){
@@ -35,13 +36,48 @@ function clear_partial(){
 function result(){
     exp = document.getElementById('display-text').textContent;
     // console.log(exp);
+    exp = formatString(exp);
+    // console.log(exp);
     let mid = infixToPostfix(exp);
     // console.log(mid);
-    // console.log(evaluatePostfix(mid));
+    console.log(evaluatePostfix(mid));
     document.getElementById('display-text').innerHTML = evaluatePostfix(mid);
 
 }
 
+function formatString(exp){
+
+    let result= "";
+
+    var substring;
+    for(var i =0;i<exp.length;i+=substring.length){
+
+        // if(isAfuntion(exp[i]))
+        //     result.push(exp[i]);
+        // else
+        
+        substring = exp.substring(i, howLong(exp,i));
+
+        result += substring + " ";
+        
+    }
+
+    return result;
+
+}
+
+function howLong(exp, i){
+    if(  exp[i]==' ' || exp[i]=='-' || exp[i]=='+' || exp[i]=='*' || exp[i]=='/')
+        return i+1;
+    
+    var j;
+    for(j=i;j<exp.length;j++){
+        if(!(exp[j]>='0'&&exp[j]<='9'))
+            break;
+
+    }
+    return j;
+}
 
 
 function prec(c) {
@@ -59,12 +95,15 @@ function infixToPostfix(s) {
 
     let st = []; 
     let result = "";
+    let c="";
 
-    for(let i = 0; i < s.length; i++) {
-        let c = s[i];
-
-        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-            result += c;
+    for(let i = 0; i < s.length; i+=c.length) {
+        c = s.substring(i, howLong(s,i));
+        if(c==' ')
+            continue;
+        
+        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '999'))
+            result += c+" ";
 
         else if(c == '(')
             st.push('(');
@@ -72,15 +111,15 @@ function infixToPostfix(s) {
         else if(c == ')') {
             while(st[st.length - 1] != '(')
             {
-                result += st[st.length - 1];
+                result += st[st.length - 1]+" ";
                 st.pop();
             }
             st.pop();
         }
 
         else {
-            while(st.length != 0 && prec(s[i]) <= prec(st[st.length - 1])) {
-                result += st[st.length - 1];
+            while(st.length != 0 && prec(c) <= prec(st[st.length - 1])) {
+                result += st[st.length - 1]+" ";
                 st.pop();
             }
             st.push(c);
@@ -88,52 +127,60 @@ function infixToPostfix(s) {
     }
 
     while(st.length != 0) {
-        result += st[st.length - 1];
+        result += st[st.length - 1]+" ";
         st.pop();
     }
-
     return result;
+
 }
- 
+
+ function totalUni(c){
+    var result=0;
+    for(var i=0;i<c.length;i++){
+        result+=c.charCodeAt(i);
+    }
+    return result;
+ }
+
 function evaluatePostfix(exp)
 {
-        let stack=[];
-          
-        for(let i=0;i<exp.length;i++)
+    let stack=[];
+    let c=""; 
+    for(let i=0;i<exp.length;i+=c.length+1)
+    {
+        c = exp.substring(i, howLong(exp,i));
+            
+        if(! isNaN( parseFloat(c) ))
+        stack.push(parseFloat(c));
+            
+        else
         {
-            let c=exp[i];
-              
-            if(! isNaN( parseInt(c) ))
-            stack.push(c.charCodeAt(0) - '0'.charCodeAt(0));
-              
-            else
+            let val1 = parseFloat(stack.pop());
+            let val2 = parseFloat(stack.pop());
+                
+            switch(c)
             {
-                let val1 = parseFloat(stack.pop());
-                let val2 = parseFloat(stack.pop());
-                  
-                switch(c)
-                {
-                    case '+':
-                    stack.push(val2+val1);
-                    break;
-                      
-                    case '-':
-                    stack.push(val2- val1);
-                    break;
-                      
-                    case '/':
-                    stack.push(val2/val1);
-                    break;
-                      
-                    case '*':
-                    stack.push(val2*val1);
-                    break;
+                case '+':
+                stack.push(val2+val1);
+                break;
+                    
+                case '-':
+                stack.push(val2- val1);
+                break;
+                    
+                case '/':
+                stack.push(val2/val1);
+                break;
+                    
+                case '*':
+                stack.push(val2*val1);
+                break;
 
-                    case '%':
-                        stack.push(val2%val1);
-                        break;
-              }
+                case '%':
+                    stack.push(val2%val1);
+                    break;
             }
         }
-        return stack.pop();  
+    }
+    return stack.pop();  
 }
